@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
+from cmath import e
 
 import roslib
 import sys
@@ -9,13 +10,14 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import time
+import warnings
 
 class image_converter(object):
     def __init__(self, topic):
         self.bridge = CvBridge()
 
         self.image_sub = rospy.Subscriber(topic, Image, self.callback)
-        self.image_pub = rospy.Publisher(topic+'_color',Image)
+        self.image_pub = rospy.Publisher(topic+'_rgb_opencv',Image)
 
     def callback(self,data):
         try:
@@ -31,9 +33,15 @@ if __name__ == '__main__':
     ic = image_converter(topic)
     time.sleep(1)
     while 1:
-        img = ic.cv_image
-        # resize_img = cv2.resize(img, (640,480), interpolation = cv2.INTER_AREA)
-        # cv2.imshow('wtf',resize_img)
-        # cv2.waitKey(1)
-        time.sleep(1)
+        try:
+            img = ic.cv_image
+            # resize_img = cv2.resize(img, (640,480), interpolation = cv2.INTER_AREA)
+            # cv2.imshow('wtf',resize_img)
+        except:
+            print("No image, publishing topic "+topic+" yet?")
+            # print(CvBridgeError)
+            time.sleep(0.5)
 
+        time.sleep(0.001)
+
+    # sys.exit(1)
