@@ -1,0 +1,10 @@
+<launch>
+  <arg name="frame_rate" default="13"/>
+  <arg name="topic_list" default="[/camera_fr/image_raw, /camera_fl/image_raw]"/>
+
+
+  <node name="img_encoder" pkg="ros_image_encoder" type="convert_image_encoding.py" output="screen"/>
+    <param name="frame_rate" value="$(arg frame_rate)"/>
+    <rosparam param="topic_list" subst_value="True">$(arg topic_list)</rosparam> 
+    
+</launch>
