@@ -53,8 +53,6 @@ def main(args=None):
     frame_rate = param_node.get_parameter('frame_rate').value
     topic_list = param_node.get_parameter('topic_list').value
 
-    param_node.get_logger().info(str(frame_rate))
-
     param_node.destroy_node()
 
     converters = []
